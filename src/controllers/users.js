@@ -24,4 +24,10 @@ function helloWorld(req, res) {
     }
 }
 
-module.exports = { helloWorld }
+async function getUsers(req, res){
+    const users = await Users.find({})
+    console.log('Users:', users);
+    res.status(200).send({ description:'Users',body:users});
+}
+
+module.exports = { getUsers }
