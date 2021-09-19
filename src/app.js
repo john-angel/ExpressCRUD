@@ -18,7 +18,8 @@ class App {
 
     routes() {
         // Routes
-        app.get('/', getUsers); 
+        app.get('/users', getUsers);
+        app.get('/user/:id', getUser);
     }
 
     initDatabase() {

@@ -30,4 +30,17 @@ async function getUsers(req, res){
     res.status(200).send({ description:'Users',body:users});
 }
 
-module.exports = { getUsers }
+async function getUser(req, res){
+ 
+    try {
+        const user = await Users.findById(req.params.id).exec();
+        console.log(`User with id ${req.params.id} found: ${user}`);
+        res.status(200).send({ description:'User',body:user});
+                
+    } catch (error) {
+        console.log(`User with id ${req.params.id} not found. Error: ${error}`);
+        res.sendStatus(404);        
+    }     
+}
+
+module.exports = { getUsers, getUser }
