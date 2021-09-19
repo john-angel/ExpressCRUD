@@ -43,4 +43,28 @@ async function getUser(req, res){
     }     
 }
 
-module.exports = { getUsers, getUser }
+async function addUser(req, res){
+ 
+    try {
+
+        const user = new Users(req.body);       
+
+        const newUser = await user.save();
+
+        if(user === newUser){
+            console.log(`User ${JSON.stringify(req.body)} created`);
+            res.status(201).send({ description:'User created',body:req.body});
+        }else{
+            throw('User returned by save not equal to the user created');
+        }
+    } catch (error) {
+        console.log(`Error creating user ${req.body}. Error: ${error}`);
+        res.sendStatus(500);        
+    }     
+}
+
+
+
+
+
+module.exports = { getUsers, getUser, addUser }
