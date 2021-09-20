@@ -39,7 +39,7 @@ async function getUser(req, res){
             console.log(`User with id ${req.params.id} not found`);
             throw('')
         }
-        
+
         console.log(`User with id ${req.params.id} found: ${user}`);
         res.status(200).send({ description:'User',body:user});
                 
@@ -120,8 +120,33 @@ async function deleteUser(req, res) {
         res.sendStatus(404);
     }
 }
-    
 
+async function loginUser(req, res) {
 
+    try {
 
-module.exports = { getUsers, getUser, addUser, editUser, deleteUser }
+        const {username,password} = req.body;        
+        
+        const user = await Users.find({
+          username, 
+          password         
+        }).exec();
+
+        if(!user.length){
+            throw('Wrong login information');
+        }
+
+        console.log('User found:', user);
+
+        console.log(`User ${JSON.stringify(req.body)} logged in`);
+        res.sendStatus(200); 
+
+        
+        } catch (error) {
+          console.log(`Error login user ${JSON.stringify(req.body)}. Error: ${error}`);
+          res.sendStatus(404);
+        }
+  }
+  
+
+module.exports = { getUsers, getUser, addUser, editUser, deleteUser, loginUser }
