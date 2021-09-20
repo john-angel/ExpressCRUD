@@ -34,6 +34,12 @@ async function getUser(req, res){
  
     try {
         const user = await Users.findById(req.params.id).exec();
+        
+        if(user === null){
+            console.log(`User with id ${req.params.id} not found`);
+            throw('')
+        }
+        
         console.log(`User with id ${req.params.id} found: ${user}`);
         res.status(200).send({ description:'User',body:user});
                 
@@ -97,8 +103,25 @@ async function editUser(req, res){
     } catch (error) {
         console.log(`Error updating ${req.body.filter} with ${JSON.stringify(req.body.data)}. Error: ${error}`);
         res.sendStatus(204);
-    }     
+    } 
 }
 
+async function deleteUser(req, res) {
 
-module.exports = { getUsers, getUser, addUser, editUser }
+  try {
+
+      await Users.deleteOne(req.body);
+
+      console.log(`User with ${JSON.stringify(req.body)} deleted`);
+      res.sendStatus(200);
+
+    } catch (error) {
+        console.log(`Error deleting user with ${req.body}. Error: ${error}`);
+        res.sendStatus(404);
+    }
+}
+    
+
+
+
+module.exports = { getUsers, getUser, addUser, editUser, deleteUser }
