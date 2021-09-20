@@ -2,7 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const { connect } = require('./db')
-const { getUsers, getUser, addUser } = require('./controllers/users')
+const { getUsers, getUser, addUser, editUser } = require('./controllers/users')
 
 class App {
     constructor() {
@@ -21,6 +21,7 @@ class App {
         app.get('/users', getUsers);
         app.get('/user/:id', getUser);
         app.post('/addUser', addUser);
+        app.put('/editUser', editUser);
     }
 
     initDatabase() {

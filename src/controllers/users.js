@@ -63,8 +63,42 @@ async function addUser(req, res){
     }     
 }
 
+async function editUser(req, res){
+
+    /*
+    query in the body has to follow the format:
+    { 
+        "filter":{
+            "key": "value"
+        },
+        "data":{
+            "key1": "value1",
+            "key2": "value2",
+        .
+        .
+        .
+        }
+    }   
+    
+    */
+ 
+    try {
+
+        console.log(`User ${JSON.stringify(req.body)} to update`);
+
+        const filter = req.body.filter;
+        const update = req.body.data;
+        
+        const user = await Users.findOneAndUpdate(filter,update, {new:true});  
+        
+        console.log(`${user}  updated`);    
+        res.sendStatus(200);
+       
+    } catch (error) {
+        console.log(`Error updating ${req.body.filter} with ${JSON.stringify(req.body.data)}. Error: ${error}`);
+        res.sendStatus(204);
+    }     
+}
 
 
-
-
-module.exports = { getUsers, getUser, addUser }
+module.exports = { getUsers, getUser, addUser, editUser }
